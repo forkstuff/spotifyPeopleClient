@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Button} from 'react-bootstrap'
 import '../App.css';
 
 class PersonView extends Component {
@@ -11,8 +12,10 @@ class PersonView extends Component {
   render() {
     return (
       <div className="PersonView">
-      	Name: <div>Mendel</div>
-      	Favorite City<div>NYC</div>
+      	<div>Name: {this.props.name}</div>
+      	<div>Favorite City: {this.props.city}</div>
+      	<Button bsSize="small" bsStyle="warning">Edit</Button>{' '}
+      	<Button bsSize="small" bsStyle="danger">Delete</Button>
       </div>
     );
   }
