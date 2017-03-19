@@ -35,7 +35,6 @@
   padding-bottom: 10%; /* = width for a 1:1 aspect ratio */
   margin:1.66%;
   overflow:hidden;
-  border: grey solid 1px;
 }
 
 .content {
@@ -44,6 +43,7 @@
     height:90%; /* = 100% - 2*10% padding */
     width:90%; /* = 100% - 2*5% padding */
     padding: 5%;
+  border: grey solid 1px;
 }
 
 .table{
