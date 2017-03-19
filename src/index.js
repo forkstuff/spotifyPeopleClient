@@ -7,11 +7,10 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 
-ReactDOM.render(
+ReactDOM.render((
   <Router history={browserHistory}>
   	<Route path="/" component={App}>
   		<IndexRoute component={People}/>
   	</Route>
-  </Router>,
-  document.getElementById('root')
-);
+  </Router>
+), document.getElementById('root'));
