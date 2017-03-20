@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import dataFetcher from '../utilities/DataFetcher'
 import '../App.css';
 import PersonView from './PersonView'
 
 class People extends Component {
 	constructor(props) {
 		super(props);
-		this.fetchPeople = this.fetchPeople.bind(this)
 
 		this.state = {
 			loaded: false,
@@ -16,21 +16,10 @@ class People extends Component {
 	}
 
 	componentDidMount() {
-		this.fetchPeople()
+		dataFetcher.fetchPeople()
 		.then(json => {
 			this.setState({people: json, loaded: true})
 			this.setPeople(json)
-		})
-	}
-
-	fetchPeople() {
-		return fetch('http://spotify-people-api.herokuapp.com/')
-		.then(function(response) {
-  		if(response.ok) {
-    		return response.json();
-  		} else {
-  			throw new Error('Network response was not ok.')
-  		}
 		})
 	}
 
@@ -46,15 +35,11 @@ class People extends Component {
 	}
 
 	handleClickDelete(i) {
-		return fetch('http://spotify-people-api.herokuapp.com/people/' + i, {
-  		method: 'DELETE',
-		})
+		dataFetcher.deletePerson(i)
 		.then(response => {
-			if(response.ok) {
+			if(response) {
 				this.setState({ peopleViews:  this.state.peopleViews.filter((e) => Number(e.key) !== i)});
-  		} else {
-  			throw new Error('Network response was not ok.')
-  		}
+  		} 
 		})
 	}
 
