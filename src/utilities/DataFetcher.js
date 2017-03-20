@@ -1,18 +1,29 @@
+const ROOT = "http://spotify-people-api.herokuapp.com/"
+const PEOPLE = ROOT + '/people'
+const headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+}
+
+function handleResponse(response) {
+	if (response.ok) {
+		return response.json();
+	} else {
+		throw new Error('Network response was not ok.')
+	}
+}
+
 let dataFetcher = {
 
 	fetchPeople: function() {
-		return fetch('http://spotify-people-api.herokuapp.com/')
+		return fetch(ROOT)
 		.then(function(response) {
-  		if(response.ok) {
-    		return response.json();
-  		} else {
-  			throw new Error('Network response was not ok.')
-  		}
+  		return handleResponse(response)
 		})
 	},
 
 	deletePerson: function(id) {
-		return fetch('http://spotify-people-api.herokuapp.com/people/' + id, {
+		return fetch(PEOPLE + id, {
   		method: 'DELETE',
 		})
 		.then(response => {
@@ -25,12 +36,9 @@ let dataFetcher = {
 	},
 
 	createPerson: function(data) {
-		return fetch('http://spotify-people-api.herokuapp.com/people', {
+		return fetch(PEOPLE, {
   		method: 'POST',
-  		headers: {
-    		'Accept': 'application/json',
-    		'Content-Type': 'application/json',
-  		},
+  		headers: headers,
   		body: JSON.stringify({
     		"person": {
   				"name": data.name,
@@ -39,21 +47,14 @@ let dataFetcher = {
   		})
 		})
 		.then(response => {
-			if(response.ok) {
-    		return response.json();
-  		} else {
-  			throw new Error('Network response was not ok.')
-  		}
+			return handleResponse(response)
 		})
 	},
 
 	editPerson: function(data) {
-		return fetch('http://spotify-people-api.herokuapp.com/people', {
+		return fetch(PEOPLE, {
   		method: 'PUT',
-  		headers: {
-    		'Accept': 'application/json',
-    		'Content-Type': 'application/json',
-  		},
+  		headers: headers,
   		body: JSON.stringify({
     		"person": {
   				"name": data.name,
@@ -62,22 +63,14 @@ let dataFetcher = {
   		})
 		})
 		.then(response => {
-			if(response.ok) {
-    		return response.json();
-  		} else {
-  			throw new Error('Network response was not ok.')
-  		}
+			return handleResponse(response)
 		})
 	},
 
 	getPerson: function(id) {
-		return fetch('http://spotify-people-api.herokuapp.com/people/' + id)
+		return fetch(PEOPLE + id)
 		.then(response => {
-			if (response.ok) {
-				return response.json()
-			} else {
-				throw new Error('Network response was not ok.')
-			}
+			return handleResponse(response)
 		})
 	}
 
