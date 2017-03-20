@@ -37,7 +37,6 @@ class People extends Component {
 
 	handleClickEdit(i) {
 		var person = this.state.people.filter((e) => Number(e.id) === i)[0]
-		debugger
    	browserHistory.push({
    		pathname: '/edit-people/' + i,
    		state: {
@@ -68,7 +67,8 @@ class People extends Component {
 			      <div className="table-cell"> 
 			      	<PersonView 
 			      		name={person.name} 
-			      		city={person.favorite_city} 
+			      		city={person.favorite_city}
+			      		id={person.id}
 			      		hasData={true} 
 			      		onClickEdit={() => this.handleClickEdit(person.id)} 
 			      		onClickDelete={() => this.handleClickDelete(person.id)}/>
