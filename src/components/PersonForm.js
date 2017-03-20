@@ -10,7 +10,8 @@ class PersonForm extends Component {
 		this.state = {
 			name: '',
 			favoriteCity: '',
-			valid: false
+			valid: false,
+			editForm: false
 		}
 
 		this.handleChangeName = this.handleChangeName.bind(this);
@@ -19,6 +20,25 @@ class PersonForm extends Component {
 		this.getValidationState = this.getValidationState.bind(this);
 		this.createPerson = this.createPerson.bind(this)
 	}
+
+	componentDidMount() {
+		var data = this.props.location.state
+		if (data && this.props.location.pathname !== '/create-person') {
+			this.setState({name: data.name, favoriteCity: data.city, editForm: true})
+		} else {
+			this.setState({name: '', favoriteCity: ''})
+		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		var data = this.props.location.state
+		if (data && nextProps.location.pathname !== '/create-person') {
+			this.setState({name: data.name, favoriteCity: data.city, editForm: true})
+		} else {
+			this.setState({name: '', favoriteCity: ''})
+		}
+	}
+
 
 	handleChangeName(event) {
 		const valid = this.getValidationState(event.target.value, this.state.favoriteCity)
@@ -35,15 +55,45 @@ class PersonForm extends Component {
   }
 
 	handleClick() {
-		this.createPerson()
-		.then(response => {
-			browserHistory.push('/people/' + response.id)
-		})
+		if (this.state.editForm) {
+			this.editPerson()
+			.then(response => {
+				browserHistory.push('/people/' + response.id)
+			})
+		} else {
+			this.createPerson()
+			.then(response => {
+				browserHistory.push('/people/' + response.id)
+			})
+		}
 	}
 
 	createPerson() {
 		return fetch('http://spotify-people-api.herokuapp.com/people', {
   		method: 'POST',
+  		headers: {
+    		'Accept': 'application/json',
+    		'Content-Type': 'application/json',
+  		},
+  		body: JSON.stringify({
+    		"person": {
+  				"name": this.state.name,
+  				"favorite_city": this.state.favoriteCity
+  			}
+  		})
+		})
+		.then(response => {
+			if(response.ok) {
+    		return response.json();
+  		} else {
+  			throw new Error('Network response was not ok.')
+  		}
+		})
+	}
+
+	editPerson() {
+		return fetch('http://spotify-people-api.herokuapp.com/people', {
+  		method: 'PUT',
   		headers: {
     		'Accept': 'application/json',
     		'Content-Type': 'application/json',
@@ -75,7 +125,7 @@ class PersonForm extends Component {
 	      					<FormControl type="text" placeholder="Input Favorite City Here" value={this.state.favoriteCity} onChange={this.handleChangeCity} />
 	    				</FormGroup>
 	    			</div>
-					<Button bsStyle="success" bsSize="large" onClick={this.handleClick} disabled={!this.state.valid}>Create Person!</Button>
+					<Button bsStyle="success" bsSize="large" onClick={this.handleClick} disabled={!this.state.valid}>Submit!</Button>
 				</div>
       </div>
     );
