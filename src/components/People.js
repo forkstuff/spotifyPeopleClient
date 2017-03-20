@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import '../App.css';
 import PersonView from './PersonView'
+import PersonForm from './PersonForm'
 
 class People extends Component {
 	constructor(props) {
@@ -9,7 +11,8 @@ class People extends Component {
 
 		this.state = {
 			loaded: false,
-			people: []
+			people: [],
+			peopleViews: []
 		}
 	}
 
@@ -17,6 +20,7 @@ class People extends Component {
 		this.fetchPeople()
 		.then(json => {
 			this.setState({people: json, loaded: true})
+			this.setPeople(json)
 		})
 	}
 
@@ -31,22 +35,56 @@ class People extends Component {
 		})
 	}
 
-  render() {
-  	var people = this.state.people.map((person, index) => {
-      return (<div key={index} className="square">
+	handleClickEdit(i) {
+		var person = this.state.people.filter((e) => Number(e.id) === i)[0]
+		debugger
+   	browserHistory.push({
+   		pathname: '/edit-people/' + i,
+   		state: {
+   			name: person.name,
+   			city: person.favorite_city
+   		}
+   	})
+	}
+
+	handleClickDelete(i) {
+		return fetch('http://spotify-people-api.herokuapp.com/people/' + i, {
+  		method: 'DELETE',
+		})
+		.then(response => {
+			if(response.ok) {
+				this.setState({ peopleViews:  this.state.peopleViews.filter((e) => Number(e.key) !== i)});
+  		} else {
+  			throw new Error('Network response was not ok.')
+  		}
+		})
+	}
+
+	setPeople(people) {
+  	var peopleViews = people.map((person, index) => {
+      return (<div key={person.id} className="square">
 	      <div className="content">
 		      <div className="table">
 			      <div className="table-cell"> 
-			      	<PersonView name={person.name} city={person.favorite_city}/>
+			      	<PersonView 
+			      		name={person.name} 
+			      		city={person.favorite_city} 
+			      		hasData={true} 
+			      		onClickEdit={() => this.handleClickEdit(person.id)} 
+			      		onClickDelete={() => this.handleClickDelete(person.id)}/>
 			      </div>
 			    </div>
 	      </div>
       </div>)
   	})
+  	this.setState({peopleViews: peopleViews})
+	}
+
+  render() {
     return (
 	      this.state.loaded ?
       	<div className="People">
-	      	{people}
+	      	{this.state.peopleViews}
 	      </div>
 	      :
 	      <div className="People">
