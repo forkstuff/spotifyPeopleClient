@@ -1,3 +1,5 @@
+This project is live [here](http://spotify-people-client.herokuapp.com/)
+
 # Installation:
 
 ```
