@@ -68,6 +68,17 @@ let dataFetcher = {
   			throw new Error('Network response was not ok.')
   		}
 		})
+	},
+
+	getPerson: function(id) {
+		return fetch('http://spotify-people-api.herokuapp.com/people/' + id)
+		.then(response => {
+			if (response.ok) {
+				return response.json()
+			} else {
+				throw new Error('Network response was not ok.')
+			}
+		})
 	}
 
 }
