@@ -15,6 +15,7 @@ ReactDOM.render((
   		<IndexRoute component={People}/>
   		<Route path="/create-person" component={PersonForm}/>
   		<Route path="/people/:id" component={PersonView}/>
+  		<Route path="/edit-people/:id" component={PersonForm}/>
   	</Route>
   </Router>
 ), document.getElementById('root'));
