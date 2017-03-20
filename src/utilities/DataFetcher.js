@@ -1,5 +1,5 @@
 const ROOT = "http://spotify-people-api.herokuapp.com/"
-const PEOPLE = ROOT + '/people/'
+const PEOPLE = ROOT + 'people/'
 const headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
