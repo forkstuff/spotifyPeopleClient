@@ -1,5 +1,4 @@
-const ROOT = "http://spotify-people-api.herokuapp.com/"
-const PEOPLE = ROOT + 'people/'
+const PEOPLE_ROUTE = "http://spotify-people-api.herokuapp.com/people/"
 const headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
@@ -7,7 +6,7 @@ const headers = {
 
 function handleResponse(response) {
 	if (response.ok) {
-		return response.json();
+		return response.json()
 	} else {
 		throw new Error('Network response was not ok.')
 	}
@@ -16,14 +15,14 @@ function handleResponse(response) {
 let dataFetcher = {
 
 	fetchPeople: function() {
-		return fetch(ROOT)
+		return fetch(PEOPLE_ROUTE)
 		.then(function(response) {
   		return handleResponse(response)
 		})
 	},
 
 	deletePerson: function(id) {
-		return fetch(PEOPLE + id, {
+		return fetch(PEOPLE_ROUTE + id, {
   		method: 'DELETE',
 		})
 		.then(response => {
@@ -36,7 +35,7 @@ let dataFetcher = {
 	},
 
 	createPerson: function(data) {
-		return fetch(PEOPLE, {
+		return fetch(PEOPLE_ROUTE, {
   		method: 'POST',
   		headers: headers,
   		body: JSON.stringify({
@@ -51,8 +50,8 @@ let dataFetcher = {
 		})
 	},
 
-	editPerson: function(data) {
-		return fetch(PEOPLE, {
+	editPerson: function(data, id) {
+		return fetch(PEOPLE_ROUTE + id, {
   		method: 'PUT',
   		headers: headers,
   		body: JSON.stringify({
@@ -68,7 +67,7 @@ let dataFetcher = {
 	},
 
 	getPerson: function(id) {
-		return fetch(PEOPLE + id)
+		return fetch(PEOPLE_ROUTE + id)
 		.then(response => {
 			return handleResponse(response)
 		})
