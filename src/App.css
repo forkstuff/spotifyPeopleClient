@@ -11,6 +11,7 @@
   background-position:fill;
   background-image: url(../public/background.jpg);
   text-align: center;
+  text-shadow: 0.2px 0.0.3px white;
 }
 
 .App-logo {
@@ -20,6 +21,7 @@
 }
 
 .App-Header-Text {
+  text-shadow: none;
   float: left;
   margin-top: 8px;
   font-size: x-large;
