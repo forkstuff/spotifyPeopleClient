@@ -35,7 +35,7 @@ class PersonForm extends Component {
 		if (data && nextProps.location.pathname !== '/create-person') {
 			this.setState({name: data.name, favoriteCity: data.city, editForm: true})
 		} else {
-			this.setState({name: '', favoriteCity: ''})
+			this.setState({name: '', favoriteCity: '', editForm: false})
 		}
 	}
 
@@ -56,9 +56,9 @@ class PersonForm extends Component {
 	handleSubmit(e) {
 		e.preventDefault()
 		if (this.state.editForm) {
-			dataFetcher.editPerson(this.state)
+			dataFetcher.editPerson(this.state, this.props.params.id)
 			.then(response => {
-				browserHistory.push('/people/' + response.id)
+				browserHistory.push('/people/' + response)
 			})
 		} else {
 			dataFetcher.createPerson(this.state)
