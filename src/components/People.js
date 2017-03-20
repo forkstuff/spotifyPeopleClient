@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import '../App.css';
 import PersonView from './PersonView'
-import PersonForm from './PersonForm'
 
 class People extends Component {
 	constructor(props) {

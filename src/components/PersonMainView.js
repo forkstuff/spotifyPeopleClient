@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
-import {Button, FormGroup, FormControl} from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
 import '../App.css';
 
 class PersonMainView extends Component {
