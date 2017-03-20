@@ -34,8 +34,8 @@ class PersonView extends Component {
   render() {
     return (
       <div className="PersonView">
-      	<div>Name: {this.props.name || this.state.name}</div>
-      	<div>Favorite City: {this.props.city || this.state.city}</div>
+      	<div className="Info">Name: {this.props.name || this.state.name}</div>
+      	<div className="Info">Favorite City: {this.props.city || this.state.city}</div>
       	<Button bsSize="small" bsStyle="warning">Edit</Button>{' '}
       	<Button bsSize="small" bsStyle="danger">Delete</Button>
       </div>
