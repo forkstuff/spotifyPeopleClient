@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import dataFetcher from '../utilities/DataFetcher'
 import {Button} from 'react-bootstrap'
 import '../App.css';
 
@@ -34,49 +35,9 @@ class PersonMainView extends Component {
 	}
 
 	handleClickDelete() {
-		return fetch('http://spotify-people-api.herokuapp.com/people/' + this.props.params.id, {
-  		method: 'DELETE',
-		})
+		dataFetcher.deletePerson(this.props.params.id)
 		.then(response => {
-			if(response.ok) {
-				browserHistory.push("/")
-  		} else {
-  			throw new Error('Network response was not ok.')
-  		}
-		})
-	}
-
-	createPerson(id) {
-		return fetch('http://spotify-people-api.herokuapp.com/people/' + id)
-		.then(response => {
-			if(response.ok) {
-				return response.json();
-			} else {
-				throw new Error('Network response was not ok.')
-			}
-		})
-	}
-
-	editPerson() {
-		return fetch('http://spotify-people-api.herokuapp.com/people', {
-  		method: 'PUT',
-  		headers: {
-    		'Accept': 'application/json',
-    		'Content-Type': 'application/json',
-  		},
-  		body: JSON.stringify({
-    		"person": {
-  				"name": this.state.name,
-  				"favorite_city": this.state.favoriteCity
-  			}
-  		})
-		})
-		.then(response => {
-			if(response.ok) {
-    		return response.json();
-  		} else {
-  			throw new Error('Network response was not ok.')
-  		}
+			browserHistory.push("/")
 		})
 	}
 

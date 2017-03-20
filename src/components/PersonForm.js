@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import dataFetcher from '../utilities/DataFetcher'
 import {Button, FormGroup, FormControl} from 'react-bootstrap'
 import '../App.css';
 
@@ -39,7 +40,6 @@ class PersonForm extends Component {
 		}
 	}
 
-
 	handleChangeName(event) {
 		const valid = this.getValidationState(event.target.value, this.state.favoriteCity)
 		this.setState({name: event.target.value, valid: valid});
@@ -56,62 +56,16 @@ class PersonForm extends Component {
 
 	handleClick() {
 		if (this.state.editForm) {
-			this.editPerson()
+			dataFetcher.editPerson(this.state)
 			.then(response => {
 				browserHistory.push('/people/' + response.id)
 			})
 		} else {
-			this.createPerson()
+			dataFetcher.createPerson(this.state)
 			.then(response => {
 				browserHistory.push('/people/' + response.id)
 			})
 		}
-	}
-
-	createPerson() {
-		return fetch('http://spotify-people-api.herokuapp.com/people', {
-  		method: 'POST',
-  		headers: {
-    		'Accept': 'application/json',
-    		'Content-Type': 'application/json',
-  		},
-  		body: JSON.stringify({
-    		"person": {
-  				"name": this.state.name,
-  				"favorite_city": this.state.favoriteCity
-  			}
-  		})
-		})
-		.then(response => {
-			if(response.ok) {
-    		return response.json();
-  		} else {
-  			throw new Error('Network response was not ok.')
-  		}
-		})
-	}
-
-	editPerson() {
-		return fetch('http://spotify-people-api.herokuapp.com/people', {
-  		method: 'PUT',
-  		headers: {
-    		'Accept': 'application/json',
-    		'Content-Type': 'application/json',
-  		},
-  		body: JSON.stringify({
-    		"person": {
-  				"name": this.state.name,
-  				"favorite_city": this.state.favoriteCity
-  			}
-  		})
-		})
-		.then(response => {
-			if(response.ok) {
-    		return response.json();
-  		} else {
-  			throw new Error('Network response was not ok.')
-  		}
-		})
 	}
 
   render() {
