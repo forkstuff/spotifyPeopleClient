@@ -18,7 +18,7 @@ class PersonMainView extends Component {
 	}
 
 	componentDidMount() {
-		this.createPerson(this.props.params.id)
+		dataFetcher.getPerson(this.props.params.id)
 		.then(json => {
 			this.setState({name: json.name, favoriteCity: json.favorite_city})
 		})
