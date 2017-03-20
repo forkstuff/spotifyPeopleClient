@@ -19,7 +19,6 @@ class PersonForm extends Component {
 		this.handleChangeCity = this.handleChangeCity.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.getValidationState = this.getValidationState.bind(this);
-		this.createPerson = this.createPerson.bind(this)
 	}
 
 	componentDidMount() {
