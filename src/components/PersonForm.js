@@ -17,6 +17,7 @@ class PersonForm extends Component {
 		this.handleChangeCity = this.handleChangeCity.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.getValidationState = this.getValidationState.bind(this);
+		this.createPerson = this.createPerson.bind(this)
 	}
 
 	handleChangeName(event) {
@@ -34,7 +35,33 @@ class PersonForm extends Component {
   }
 
 	handleClick() {
-		
+		this.createPerson()
+		.then(response => {
+			browserHistory.push('/people/' + response.id)
+		})
+	}
+
+	createPerson() {
+		return fetch('http://spotify-people-api.herokuapp.com/people', {
+  		method: 'POST',
+  		headers: {
+    		'Accept': 'application/json',
+    		'Content-Type': 'application/json',
+  		},
+  		body: JSON.stringify({
+    		"person": {
+  				"name": this.state.name,
+  				"favorite_city": this.state.favoriteCity
+  			}
+  		})
+		})
+		.then(response => {
+			if(response.ok) {
+    		return response.json();
+  		} else {
+  			throw new Error('Network response was not ok.')
+  		}
+		})
 	}
 
   render() {
